@@ -1,90 +1,217 @@
-# Fake Influencer / Bot Detection System
+# 🤖 Fake Influencer & Bot Detection System
 
-A local Streamlit application for tweet-text classification, profile heuristics and trained Hybrid scores, graph-node inference, graph exploration, and holdout evaluation.
+<p align="center">
+  <strong>Machine Learning | Graph Neural Networks | Streamlit</strong>
+</p>
 
-## Windows setup
+<p align="center">
+  A machine learning-based application for detecting suspicious social media accounts using tweet analysis, profile features, and graph-based predictions.
+</p>
 
-Use the same 64-bit Python 3.14 environment used to verify this project (currently Python 3.14.8). From PowerShell:
+<p align="center">
+  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20App-FF4B4B?logo=streamlit&logoColor=white)](https://fake-influencer-bot-detection.streamlit.app/)
+  [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+  [![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
+  [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/amitkumar97097/fake-influencer-bot-detection)
+</p>
+
+---
+
+## 🌐 Live Demo
+
+**Try the application here:**
+
+👉 https://fake-influencer-bot-detection.streamlit.app/
+
+> Note: The demo requires a working deployment and access to the required model and dataset files. If the app is temporarily unavailable, check the deployment logs.
+
+## 📌 About the Project
+
+The **Fake Influencer & Bot Detection System** is designed to help analyze social media accounts and identify potentially suspicious or automated activity.
+
+It combines machine learning, tweet-level analysis, account profile features, and graph-based approaches to produce predictions that can support further investigation.
+
+The application provides a user-friendly Streamlit interface for running predictions, exploring analysis results, and reviewing available evaluation metrics.
+
+**Important:** Predictions are model-based estimates, not definitive proof that an account is fake or operated by a bot.
+
+## ✨ Features
+
+- **🔐 User Authentication** — Login functionality provided by the application.
+- **📝 Tweet Analysis** — Analyze tweet text using the available prediction pipeline.
+- **📂 Batch CSV Prediction** — Upload a supported CSV file to analyze multiple records.
+- **👤 Profile Analysis** — Examine available account profile features.
+- **🕸️ Graph Analysis** — Explore relationships between accounts using graph-based analysis.
+- **🧠 Machine Learning** — Use the project's trained models for supported predictions.
+- **🔗 Graph Neural Networks** — Includes GCN/GraphSAGE-related functionality where the required artifacts are available.
+- **📊 Evaluation Dashboard** — Review supported model evaluation metrics and visualizations.
+- **📈 Data Visualization** — Explore charts and analysis outputs.
+- **📥 Export Results** — Download supported prediction results in CSV or PDF format.
+- **🗂️ Prediction History** — Review stored prediction history where enabled.
+- **⚙️ Settings and Help** — Access available application settings and guidance.
+
+*The availability of individual features depends on the files, model artifacts, and configuration included in the deployed version.*
+
+## 🛠️ Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Python | Core programming language |
+| Streamlit | Web application interface |
+| Pandas | Data processing |
+| NumPy | Numerical operations |
+| Scikit-learn | Machine learning and evaluation utilities |
+| PyTorch | Deep learning |
+| PyTorch Geometric | Graph neural network functionality |
+| Matplotlib / Plotly | Data visualization, where used |
+| SQLite | Local prediction history, where configured |
+| Git & GitHub | Version control and project hosting |
+
+## 🏗️ Project Structure
+
+```text
+fake-influencer-bot-detection/
+│
+├── app.py                  # Main Streamlit application
+├── auth.py                 # Authentication functionality
+├── evaluation.py           # Model evaluation
+├── gcn_predict.py          # Graph neural network prediction
+├── graph_analysis.py       # Graph analysis
+├── modeling.py              # Modeling utilities
+├── requirements.txt         # Python dependencies
+├── .gitignore              # Files excluded from Git
+│
+├── ml_outputs/              # Model artifacts and outputs
+├── processed_data/          # Processed data and supported artifacts
+├── graph_outputs/           # Graph analysis outputs
+├── Twitter_DataSET/         # Dataset files used by the project
+│
+└── README.md                # Project documentation
+```
+
+*This is a representative structure. Exact files and folders may differ in your repository.*
+
+## 🚀 Run Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/amitkumar97097/fake-influencer-bot-detection.git
+cd fake-influencer-bot-detection
+```
+
+### 2. Create a virtual environment
+
+**Windows PowerShell:**
 
 ```powershell
-Set-Location E:\FakeInfluencerProject
-py -3.14 -m venv .venv
+python -m venv .venv
 .\.venv\Scripts\Activate.ps1
+```
+
+If PowerShell blocks activation, use Command Prompt instead:
+
+```bat
+.venv\Scripts\activate.bat
+```
+
+### 3. Install dependencies
+
+```bash
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python -m py_compile app.py auth.py modeling.py evaluation.py gcn_predict.py graph_analysis.py train_ml.py train_graphsage_research.py
+pip install -r requirements.txt
 ```
 
-If PowerShell blocks activation, run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` in that terminal and activate again.
+Some PyTorch or PyTorch Geometric packages may require installation instructions specific to your operating system and Python environment. Follow the official installation guides if those dependencies fail.
 
-Run the app:
+### 4. Start the application
 
-```powershell
-python -m streamlit run app.py
+```bash
+streamlit run app.py
 ```
 
-On first launch, create a local account from the sign-in screen. Passwords are stored as salted PBKDF2 hashes in `prediction_history.db`; prediction history and settings are scoped to that username. Do not expose this local SQLite authentication to a public service.
+The local application will usually open at:
 
-## Models and data
-
-The app expects `Twitter_DataSET/bot_detection_data.csv`, the model artifacts under `ml_outputs`, and the graph tensors under `processed_data`. Text/Hybrid models can be rebuilt from the labeled tweet CSV with:
-
-```powershell
-python train_ml.py
+```text
+http://localhost:8501
 ```
 
-Training uses a stratified 80/20 holdout, fits TF-IDF and metadata scaling on training rows only, and writes matching versioned artifacts plus measured text/Hybrid metrics to `ml_outputs/model_summary.csv`. Do not interpret weak measured accuracy as a reliable production detector.
+## 📁 Dataset and Model Requirements
 
-GCN and GraphSAGE inference require their matching `.pt` checkpoints and all four graph tensors. Missing files, incompatible dimensions, or load errors are reported in the UI; the app does not fabricate graph predictions. The available Hybrid checkpoint is text plus account metadata, not a saved graph-embedding Hybrid checkpoint.
+The application may require dataset files, trained model artifacts, processed tensors, and graph-related files to operate correctly.
 
-To retrain and evaluate GraphSAGE without using test labels for class weights or model selection, run:
+Before running or deploying the application:
 
-```powershell
-python train_graphsage_research.py --seeds 42 43 44 --max-epochs 12 --patience 4
-```
+1. Confirm that required files exist in the expected directories.
+2. Check that dataset paths used in the code match the actual filenames.
+3. Ensure the deployed environment has all required model artifacts.
+4. Keep large files within the hosting platform's supported limits.
+5. Avoid uploading passwords, API keys, private datasets, or personal information to a public repository.
 
-This writes a separate `graphsage_model_research.pt`, exact seed-42 split indices, per-seed predictions/classification reports, `graphsage_seed_metrics.csv`, and `graphsage_research_run.json`. It does not overwrite the legacy GraphSAGE checkpoint.
+If a required file is missing, the relevant feature may fail even when the main Streamlit application starts successfully.
 
-## Verified research results
+## ☁️ Deployment
 
-The tweet CSV contains 50,000 rows, labels `{0: 24,982, 1: 25,018}`, 50,000 distinct user IDs, no duplicate tweets, and no duplicate tweet strings with conflicting labels. The scripts map `0` to Human and `1` to Bot. Mean tweet lengths are nearly identical for the two labels (62.61 vs 62.64 characters). These checks found no obvious label-count or feature-width mismatch, but cannot establish the dataset's label provenance or semantic quality.
+This project is intended to run as a Streamlit web application.
 
-The current text-only and text-plus-metadata Hybrid artifacts were trained with a stratified 80/20 split (seed 42), fitting TF-IDF and metadata scaling on training rows only. On the 10,000-row holdout:
+General deployment steps:
 
-| Model | Accuracy | Precision (Bot) | Recall (Bot) | F1 (Bot) | ROC-AUC | PR-AUC |
-|---|---:|---:|---:|---:|---:|---:|
-| Logistic Regression (text) | 0.5045 | 0.5049 | 0.5018 | 0.5034 | 0.5011 | 0.5012 |
-| Random Forest (text) | 0.5010 | 0.5013 | 0.5504 | 0.5247 | 0.5041 | 0.5051 |
-| Hybrid (text + metadata) | 0.4998 | 0.5002 | 0.5392 | 0.5189 | 0.5034 | 0.5055 |
+1. Push the application code to GitHub.
+2. Open [Streamlit Community Cloud](https://share.streamlit.io/).
+3. Connect the GitHub repository.
+4. Select the appropriate branch and `app.py`.
+5. Configure any required secrets using the platform's secrets settings.
+6. Confirm that all required dependencies, datasets, and model files are available.
+7. Review the deployment logs and test the application's major features.
 
-These text/Hybrid scores are near chance. Investigation found a concrete previous Hybrid feature mismatch: the CSV `Hashtags` and `Mention Count` columns matched counts parsed from `Tweet` only 16.68% and 16.46% of the time over all 50,000 rows. The corrected trainer now derives both counts from raw tweet text, the same parser used at inference; TF-IDF and metadata scaling are fit on training rows only. The corrected Hybrid score remains near chance (49.98%), so this mismatch was not the only limitation. Label semantics and source provenance remain unverified. Do not use these scores as reliable bot detection.
+**Live application:**  
+https://fake-influencer-bot-detection.streamlit.app/
 
-GraphSAGE was retrained with a stratified 60/20/20 train/validation/test split for seeds 42, 43, and 44. Class weights are computed from training labels only; validation loss selects the checkpoint; the test split is not used for training or early stopping. All three use the same 2,366-node test size:
+## 📊 Evaluation
 
-| Seed | Best epoch | Test rows | Accuracy | Precision (Bot) | Recall (Bot) | F1 (Bot) | Macro F1 | ROC-AUC | PR-AUC |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 42 | 12 | 2,366 | 0.7844 | 0.7338 | 0.9621 | 0.8326 | 0.7650 | 0.7802 | 0.7478 |
-| 43 | 12 | 2,366 | 0.7908 | 0.7413 | 0.9590 | 0.8363 | 0.7733 | 0.7926 | 0.7545 |
-| 44 | 12 | 2,366 | 0.7202 | 0.7523 | 0.7420 | 0.7471 | 0.7170 | 0.7889 | 0.7555 |
-| Mean ± sample SD | — | — | 0.7651 ± 0.0391 | 0.7425 ± 0.0093 | 0.8877 ± 0.1262 | 0.8053 ± 0.0504 | 0.7518 ± 0.0304 | 0.7872 ± 0.0064 | 0.7526 ± 0.0042 |
+The project includes evaluation-related functionality for examining model performance.
 
-Seed-42 class-wise report:
+Depending on the configured evaluation pipeline and available labeled data, useful metrics may include:
 
-| Class | Precision | Recall | F1 | Support |
-|---|---:|---:|---:|---:|
-| Human | 0.9216 | 0.5611 | 0.6975 | 1,048 |
-| Bot | 0.7338 | 0.9621 | 0.8326 | 1,318 |
+- Accuracy
+- Precision
+- Recall
+- F1-score
+- Confusion matrix
 
-Seed-42 confusion matrix (rows = true Human/Bot; columns = predicted Human/Bot): `[[588, 460], [50, 1268]]`.
+Actual results should be generated from the project's evaluation code and test data. No performance scores are claimed here because they should be verified against reproducible evaluation results.
 
-The earlier reported GraphSAGE result of 81.3% accuracy / 0.842 ROC-AUC / 0.829 PR-AUC was not reproduced under this verified protocol. The new three-seed mean is 76.51% accuracy; do not substitute the old figure for these results. Three seeds are preliminary, not a broad statistical guarantee.
+## 🔒 Privacy and Limitations
 
-## Evaluation and limitations
+- Predictions should be treated as indicators for further investigation, not conclusive evidence.
+- Model performance depends on the quality, coverage, and representativeness of the training data.
+- Publicly accessible deployment does not automatically make authentication or stored history secure.
+- Do not upload sensitive account information or confidential datasets.
+- Review authentication, database handling, and secrets management before using the application with real users.
 
-The Research Evaluation page computes accuracy, precision, recall, F1, ROC-AUC, PR-AUC, confusion matrices, inference time, and CSV exports from actual predictions against labeled rows. Text and Hybrid scores use the CSV tweet holdout; graph scores use labeled TwiBot nodes, so these are different datasets/tasks and are not directly comparable. The GCN checkpoint has no saved split metadata and is explicitly labeled diagnostic. Graph metrics are transductive: all graph edges/features are available to message passing while only train labels supervise loss; this is not an inductive unseen-graph test. The GraphSAGE research checkpoint and exact seed-42 indices are saved separately from the legacy checkpoint.
+## 🔮 Future Improvements
 
-The checked-in TwiBot JSON sample has 100 records and does not contain an explicit `label` field. `gcn_training.py` demonstrates a `"Bot" in domain` heuristic but does not save the processed 229,580-node tensors. The project does not contain the exact preprocessing script or user-ID mapping that produced the checked-in tensors, so the full graph labels' original lineage cannot be independently verified. Treat graph results as conditional on those supplied processed labels.
+- Add more comprehensive model evaluation and explainability.
+- Improve handling of missing or incomplete profile data.
+- Add stronger validation for uploaded CSV files.
+- Improve deployment reliability and model artifact management.
+- Expand testing for authentication, predictions, and downloads.
+- Add reproducible evaluation reports and documented benchmark results.
 
-## Deployment
+## 👨‍💻 Author
 
-For Streamlit Community Cloud, select `app.py` as the entry point and install from `requirements.txt`; include the required model and data artifacts in the deployment or fetch them from controlled storage at startup. Configure the hosted service's bind address for its platform. The local SQLite database is ephemeral on many hosted platforms and is not suitable for durable multi-user history. Before public deployment, replace local login with an identity provider (OIDC) and move user/history storage to a persistent managed database. Never commit credentials or secrets.
+**Amit Kumar**
+
+- **GitHub:** [@amitkumar97097](https://github.com/amitkumar97097)
+- **Project Repository:** [Fake Influencer & Bot Detection](https://github.com/amitkumar97097/fake-influencer-bot-detection)
+- **Live Demo:** [Open Application](https://fake-influencer-bot-detection.streamlit.app/)
+
+## 📄 License
+
+No license is specified in this README. Add a `LICENSE` file if you intend to grant others explicit permission to use, modify, or distribute the project.
+
+---
+
+<p align="center">
+  <strong>Built with Python, Machine Learning, Graph Analysis, and Streamlit.</strong>
+</p>

@@ -1,0 +1,4 @@
+Model,Dataset,Test samples,Accuracy,Precision,Recall,F1,ROC-AUC,PR-AUC,Inference ms/sample,Evaluation note
+Logistic Regression (tweet text),Twitter_DataSET bot_detection_data.csv,10000,0.5045,0.5049266036597627,0.5017985611510791,0.5033577227623535,0.5011222407182341,0.5011913751054642,0.00010111999581567943,Stratified 80/20 holdout; all transforms fitted on training rows only; seed=42.
+Random Forest (tweet text),Twitter_DataSET bot_detection_data.csv,10000,0.501,0.5012741172187841,0.5503597122302158,0.5246713659744713,0.5040877626161682,0.5050752017680754,0.01954323999816552,Stratified 80/20 holdout; all transforms fitted on training rows only; seed=42.
+Hybrid (tweet text + account metadata),Twitter_DataSET bot_detection_data.csv,10000,0.4998,0.5001853911753801,0.5391686650679457,0.5189459511444509,0.5034298221950861,0.5055037978116614,0.018354190001264214,Stratified 80/20 holdout; all transforms fitted on training rows only; seed=42.

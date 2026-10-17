@@ -1,0 +1,26 @@
+{
+  "status": "complete",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "split_protocol": "Stratified 60/20/20 train/validation/test over labeled nodes",
+  "class_weights_fit_on": "training labels only",
+  "checkpoint_selected_by": "lowest validation cross-entropy",
+  "max_epochs": 12,
+  "patience": 4,
+  "learning_rate": 0.005,
+  "weight_decay": 0.0005,
+  "hidden_channels": 256,
+  "layers": 3,
+  "input_features": 8,
+  "device": "cpu",
+  "torch_version": "2.14.1+cpu",
+  "checkpoint_seed": 42,
+  "best_epoch_by_seed": {
+    "42": 12,
+    "43": 12,
+    "44": 12
+  }
+}
